@@ -5,38 +5,228 @@
 	<title>112</title>
 		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js">
 		</script>
+
 		<style type="text/css">
-			#all {
+			@font-face {
+  font-family: 'iconfont';  /* project id 1435975 */
+  src: url('https://at.alicdn.com/t/font_1435975_obx71p2b17r.eot');
+  src: url('https://at.alicdn.com/t/font_1435975_obx71p2b17r.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_1435975_obx71p2b17r.woff2') format('woff2'),
+  url('https://at.alicdn.com/t/font_1435975_obx71p2b17r.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_1435975_obx71p2b17r.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_1435975_obx71p2b17r.svg#iconfont') format('svg');
+}
+			
+			
+			.all {
+				position: relative;
+				width: 320px;
+				height: 240px;
+				border: 1px solid black;
+				overflow: hidden;
+				margin-bottom: 20px;
+			}
+
+			.all2 {
+				position: relative;
 				width: 320px;
 				height: 240px;
 				border: 1px solid black;
 				overflow: hidden;
 			}
 
-			#list div{
+			.list div{
 				float: left;
 			}
 
-			#list::after {
+			.list::after {
 				content: '';
 				display: block;
 				clear: both;
 			}
 
-			#list {
+			.list {
 				width: 2000px;
 			}
+
+			.btn a {
+				font-family: 'iconfont';
+				text-decoration: none;
+				font-size: 50px;
+				color: rgb(113,113,113);
+			}
+			.leftBtn {
+				position: absolute;
+				left: 0px;
+				top: 100px;
+			}
+			.leftBtn:hover {
+				color: rgb(220,220,220)
+			}
+
+			.rightBtn {
+				position: absolute;
+				left: 270px;
+				top: 100px;
+			}
+			.rightBtn:hover {
+				color: rgb(220,220,220);
+			}
+
+			.circle a {
+				font-family: 'iconfont';
+				text-decoration: none;
+				font-size: 10px;
+				color: rgb(113,113,113);
+			}
+
+			.circle {
+				position: absolute;
+				left: 120px;
+				top: 215px;
+			}
+
+			.active {
+				color: red !important
+			}
+
 		</style>
 </head>
 <body>
-	<div id="all">
-		<div id="list">
-			<div><img src="1.jpg"></div>
-			<div><img src="2.jpg"></div>
-			<div><img src="3.jpg"></div>
-			<div><img src="4.jpg"></div>
+
+		<div class="all">
+			<div class="list">
+				<div><img src="1.jpg"></div>
+				<div><img src="2.jpg"></div>
+				<div><img src="3.jpg"></div>
+				<div><img src="4.jpg"></div>
+			</div>
+
+			<div class="btn">
+				<a href="#" class="leftBtn">&#xe612;</a>
+				<a href="#" class="rightBtn">&#xe611;</a>
+			</div>
+
+			<div class="circle">
+				<a href="#">&#xe61a;</a>
+				<a href="#">&#xe61a;</a>
+				<a href="#">&#xe61a;</a>
+				<a href="#">&#xe61a;</a>
+			</div>
 		</div>
 
-	</div>
+		<div class="all2">
+			<div class="list">
+				<div><img src="1.jpg"></div>
+				<div><img src="2.jpg"></div>
+				<div><img src="3.jpg"></div>
+				<div><img src="4.jpg"></div>
+			</div>
+
+			<div class="btn">
+				<a href="#" class="leftBtn">&#xe612;</a>
+				<a href="#" class="rightBtn">&#xe611;</a>
+			</div>
+
+			<div class="circle">
+				<a href="#">&#xe61a;</a>
+				<a href="#">&#xe61a;</a>
+				<a href="#">&#xe61a;</a>
+				<a href="#">&#xe61a;</a>
+			</div>
+		</div>
+
+
+	<script>
+		function lunbo($node){
+			this.picWidth = $('img').width()
+			this.$rightBtn = $node.find($('.rightBtn'))
+			this.$leftBtn = $node.find($('.leftBtn'))
+			this.$list = $node.find($('.list'))
+			this.index = 0
+			this.circleBtn = $node.find($('.circle'))
+			this.circle = $node.find($('.circle a'))
+			this.isAnimate = true
+			this.autoStop = true
+
+			this.firstTpl = $('.list div').eq(3).clone()
+			this.lastTpl = $('.list div').eq(0).clone()
+			$node.find($('.list')).prepend(this.firstTpl)
+			$node.find($('.list')).append(this.lastTpl)
+			$node.find($('.list')).css('margin-left','-'+this.picWidth+'px')
+
+			
+			this.bind()
+			this.circleAnimate()
+			this.intervalStart()
+		}
+
+		lunbo.prototype = {
+			bind: function(){
+				var _this = this
+
+				this.$rightBtn.on('click',function(){
+					if(!_this.isAnimate) return
+						_this.isAnimate = false
+					_this.index++
+					_this.autoStop = false
+					_this.circleAnimate()
+					_this.$list.animate({ marginLeft:'-='+(_this.picWidth) },300,function(){
+							if (parseInt(_this.$list.css('margin-left'))==-1600) {
+								_this.$list.css('margin-left','-320px')
+								_this.index = 0
+								_this.circleAnimate()
+							}
+							_this.isAnimate = true
+					})
+				})
+
+				this.$leftBtn.on('click',function(){
+					if(!_this.isAnimate) return
+						_this.isAnimate = false
+					_this.index--
+					_this.circleAnimate()
+					_this.$list.animate({ marginLeft:'+='+(_this.picWidth) },300,function(){
+							if (parseInt(_this.$list.css('margin-left'))==0) {
+								_this.$list.css('margin-left','-1280px')
+								_this.index = 3
+								_this.circleAnimate()
+							}
+							_this.isAnimate = true
+						})
+
+				})
+
+				this.circleBtn.on('click','a',function(e){
+					$(e.target).addClass('active')
+					.siblings().removeClass('active')
+					_this.index = $(e.target).index()
+					_this.$list.animate({ marginLeft: -(_this.picWidth*(_this.index+1)) },300)
+				})
+
+
+			},
+
+			circleAnimate:function(){
+					this.circle.eq(this.index).addClass('active')
+					.siblings().removeClass('active')
+			},
+
+
+			intervalStart:function(){
+				var _this = this
+				var start = setInterval(function(){
+					
+
+					if (this.autoStop == false) {
+						clearInterval(start)
+					}
+				},300)
+			}
+
+		}
+
+		var a = new lunbo($('.all'))
+	</script>
 </body>
 </html>
