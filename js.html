@@ -148,6 +148,7 @@
 			this.circle = $node.find($('.circle a'))
 			this.isAnimate = true
 			this.autoStop = true
+			this.start
 
 			this.firstTpl = $('.list div').eq(3).clone()
 			this.lastTpl = $('.list div').eq(0).clone()
@@ -215,18 +216,23 @@
 
 			intervalStart:function(){
 				var _this = this
-				var start = setInterval(function(){
-					
-
-					if (this.autoStop == false) {
-						clearInterval(start)
-					}
-				},300)
+				this.start = setInterval(function(){
+					_this.index++
+					_this.circleAnimate()
+					_this.$list.animate({ marginLeft:'-='+(_this.picWidth) },300,function(){
+							if (parseInt(_this.$list.css('margin-left'))==-1600) {
+								_this.$list.css('margin-left','-320px')
+								_this.index = 0
+								_this.circleAnimate()
+							}
+					})
+				},3000)
 			}
 
 		}
 
 		var a = new lunbo($('.all'))
+		var b = new lunbo($('.all2'))
 	</script>
 </body>
 </html>
