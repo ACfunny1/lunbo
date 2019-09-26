@@ -115,7 +115,7 @@
 			</div>
 		</div>
 
-		<div class="all2">
+		<div class="all">
 			<div class="list">
 				<div><img src="1.jpg"></div>
 				<div><img src="2.jpg"></div>
@@ -230,9 +230,14 @@
 			}
 
 		}
+
+		$.fn.carousel = function(){
+			$.each(this,function(index,node){
+				new lunbo($(node))
+			})
+		}
 		window.onload = function(){
-			var a = new lunbo($('.all'))
-			var b = new lunbo($('.all2'))
+			$('.all').carousel()
 		}
 
 	</script>
