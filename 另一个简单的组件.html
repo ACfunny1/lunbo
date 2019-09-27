@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+			<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js">
+		</script>
+
+		<style type="text/css">
+			.one,.two,.three {
+				width: 100px;
+				height: 30px;
+				border-top: 1px solid black;
+				border-left: 1px solid black;
+				border-bottom: 1px solid black;
+				float: left;
+				cursor: pointer;
+				display: table;
+			}
+
+			span {
+				display: table-cell;
+				text-align: center;
+				vertical-align: middle;
+			}
+			.three {
+				border-right: 1px solid black;
+			}
+
+
+			.bar::after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+
+			.content {
+				width: 302px;
+				height: 300px;
+				border: 1px solid black;
+			}
+
+			.active {
+				background-color: grey;
+			}
+		</style>
+</head>
+<body>
+	<div class="bar">
+		<div class="one"><span>1</span></div>
+		<div class="two"><span>2</span></div>
+		<div class="three"><span>3</span></div>
+		<div class="content"></div>
+	</div>
+
+	<div class="bar">
+		<div class="one"><span>1</span></div>
+		<div class="two"><span>2</span></div>
+		<div class="three"><span>3</span></div>
+		<div class="content"></div>
+	</div>
+	
+
+
+
+
+
+
+	<script type="text/javascript">	
+		function bar($node){
+			this.oneBtn = $node.find('.one span')
+			this.twoBtn = $node.find('.two span')
+			this.threeBtn = $node.find('.three span')
+			this.oneBtnF = $node.find('.one')
+			this.twoBtnF = $node.find('.two')
+			this.threeBtnF = $node.find('.three')
+			this.content = $node.find('.content')
+
+			this.bind()
+		}
+
+		bar.prototype = {
+			bind: function(){
+				var _this = this
+				this.oneBtn.on('click',function(){
+					_this.content.text('内容1')
+					_this.oneBtnF.addClass('active')
+					.siblings().removeClass('active')
+				})
+
+				this.twoBtn.on('click',function(){
+					_this.content.text('内容2')
+					_this.twoBtnF.addClass('active')
+					.siblings().removeClass('active')
+				})
+
+				this.threeBtn.on('click',function(){
+					_this.content.text('内容3')
+					_this.threeBtnF.addClass('active')
+					.siblings().removeClass('active')
+				})
+			}
+		}
+
+		var a = new bar($('.bar').eq(0))
+		var b = new bar($('.bar').eq(1))
+	</script>
+</body>
+</html>
